@@ -24,7 +24,7 @@ Welcome to Saint Michael's College
                       <div class="col">
                         <div class="form-group">
                             <label for="">Password</label>
-                            <input type="text" class="form-control" name="password">
+                            <input type="password" class="form-control" name="password">
                         </div>
                     </div>
                   </div>

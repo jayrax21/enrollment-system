@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Teacher;
+use App\Subject;
+use App\Enrollee;
+use App\Student;
+use App\Decline;
+use Auth;
 class TeacherController extends Controller
 {
     public function index()
@@ -45,4 +50,28 @@ class TeacherController extends Controller
         $teacher->delete();
         return redirect()->back()->with('del','Deleted successfully.');
     }
+    public function enrolleeReq($id)
+    {
+        $enrollees = Enrollee::where('student_id',$id)->first();
+        $student  = Student::where('id',$enrollees->student_id)->first();
+        
+        return view('admin-enrollee-list')->with('enrollees',$enrollees)
+                                          ->with('student',$student)
+                                          ->with('subject',$enrollees->subject_id);
+    }
+    public function declineReq(Request $request){
+        if($request->isMethod('post'))
+        {
+            $data=[
+                'enroll_id' => $request->enroll_id,
+                'remarks' => $request->remarks
+            ];
+            Decline::create( $data);
+            Auth::guard('admin')->user()->unreadNotifications->markasRead();
+            return redirect('admin/pending')->with('suc','Request declined successfully.');
+        }
+        $declines = Decline::all();
+        return view('decline')->with('declines',$declines);
+    }
+
 }

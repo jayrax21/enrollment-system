@@ -78,6 +78,12 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col col-md-6">
+                        <div class="form-group">
+                            <label for="">Units</label>
+                            <input type="text" name="unit" class="form-control">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

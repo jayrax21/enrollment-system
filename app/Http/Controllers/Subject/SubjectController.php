@@ -27,6 +27,7 @@ class SubjectController extends Controller
                     'schedule_id' => 'required',
                     'room_id' => 'required',
                     'teacher_id' => 'required',
+                    'unit' => 'required',
                 ],
                 [
                     'subject_name.required' => 'Enter Subject Name.',
@@ -34,7 +35,8 @@ class SubjectController extends Controller
                     'description.required' => 'Enter Subject Description.',
                     'schedule_id.required' => 'No entered Schedule.',
                     'room_id.required' => 'No entered Room.',
-                    'teacher_id' => 'No entered Teacher.'
+                    'teacher_id' => 'No entered Teacher.',
+                    'unit.required' => 'Enter Subject Unit.'
                 ]
             );
             Subject::create($data);

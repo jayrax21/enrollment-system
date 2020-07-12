@@ -32,6 +32,26 @@ Dashboard
                             Teacher
                         </button>
                     </a>
+                    <a class="btn btn-warning" href="{{ route('enroll_list') }}" >
+                        Enrollee
+                    </a>
+                   <a class="btn btn-warning" href="{{ route('enroll_list') }}" role="button" id="enrolee_dpdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Notification 
+                              @if( Auth::guard('admin')->user()->unreadNotifications->count())
+                                <span class="badge badge-danger">
+                                    {{ Auth::guard('admin')->user()->unreadNotifications->count() }} 
+                                </span>
+                              @endif
+                    </a>
+                        <div class="dropdown-menu" aria-labelledby="enrolee_dpdown">
+                            @if(Auth::guard('admin')->user()->unreadNotifications->count() > 0)
+                                @foreach(Auth::guard('admin')->user()->unReadNotifications as $notification)
+                                     <a href="{{ route('new-enrollee',$notification->data['student_id']) }}" class='dropdown-item'><u>{!! $notification->data['student_name']." has request for enrollment.</u><small>".$notification->created_at->diffForHumans()."</small>" !!}</a>
+                                @endforeach
+                            @else
+                                <a href="" class='dropdown-item'>No enrollees at the moment.</a>
+                            @endif
+                        </div>
                     <a href="{{ route('admin-logout') }}">
                         <button class="btn-danger btn">
                             Logout
@@ -76,6 +96,7 @@ Dashboard
                                     <th scope="col">Subject Name</th>
                                     <th scope="col">Subject Code</th>
                                     <th scope="col">Description</th>
+                                    <th>Unit</th>
                                     <th scope="col">Schedule</th>
                                     <th scope="col">Room</th>
                                     <th scope="col">Subject Teacher</th>
@@ -91,6 +112,7 @@ Dashboard
                                                 <td>{{ $subject->subject_name }}</td>
                                                 <td>{{ $subject->subject_code }}</td>
                                                 <td>{{ $subject->description }}</td>
+                                                    <td>{{ $subject->unit }}</td>
                                                 <td>
                                                     {{ $subject->schedules->day_start." to ".$subject->schedules->day_end }} 
                                                     {{ "(".date("H:i A",strtotime($subject->schedules->time_in))." to ".date("H:i A",strtotime($subject->schedules->time_out)).")   " }}

@@ -6,38 +6,53 @@ Schedule
 <div class="container-fluid">
     <div class="row justify-content-center mt-5">
         <div class="col col-md-9">
-            <div class="row mb-2">
+            <div class="row mb-1">
                 <div class="col text-right">
-                    <a href="{{ route('subject') }}">
-                        <button class="btn-primary btn">
-                                Subjects
-                        </button>
-                    </a>
-                    <a href="{{ route('schedule') }}">
-                        <button class="btn-info btn">
-                            Schedules
-                        </button>
-                    </a>
-                    <a href="{{ route('room') }}">
-                        <button class="btn-success btn">
-                            Room
+                     <a href="{{ route('subject') }}">
+                         <button class="btn-primary btn">
+                                 Subjects
                          </button>
-                    </a>
-                    <a href="{{ route('teacher') }}">
-                        <button class="btn-secondary btn">
-                            Teacher
-                        </button>
-                    </a>
-                    <a href="{{ route('admin-logout') }}">
-                        <button class="btn-warning btn">
-                            Enrollees
-                        </button>
-                    </a>
-                    <a href="{{ route('admin-logout') }}">
-                        <button class="btn-danger btn">
-                            Logout
-                        </button>
-                    </a>
+                     </a>
+                     <a href="{{ route('schedule') }}">
+                         <button class="btn-info btn">
+                             Schedules
+                         </button>
+                     </a>
+                     <a href="{{ route('room') }}">
+                         <button class="btn-success btn">
+                             Room
+                          </button>
+                     </a>
+                     <a href="{{ route('teacher') }}">
+                         <button class="btn-secondary btn">
+                             Teacher
+                         </button>
+                     </a>
+                     <a class="btn btn-warning" href="{{ route('enroll_list') }}" >
+                         Enrollee
+                     </a>
+                    <a class="btn btn-warning" href="{{ route('enroll_list') }}" role="button" id="enrolee_dpdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           Notification 
+                               @if( Auth::guard('admin')->user()->unreadNotifications->count())
+                                 <span class="badge badge-danger">
+                                     {{ Auth::guard('admin')->user()->unreadNotifications->count() }} 
+                                 </span>
+                               @endif
+                     </a>
+                         <div class="dropdown-menu" aria-labelledby="enrolee_dpdown">
+                             @if(Auth::guard('admin')->user()->unreadNotifications->count() > 0)
+                                 @foreach(Auth::guard('admin')->user()->unReadNotifications as $notification)
+                                      <a href="{{ route('new-enrollee',$notification->data['student_id']) }}" class='dropdown-item'><u>{!! $notification->data['student_name']." has request for enrollment.</u><small>".$notification->created_at->diffForHumans()."</small>" !!}</a>
+                                 @endforeach
+                             @else
+                                 <a href="" class='dropdown-item'>No enrollees at the moment.</a>
+                             @endif
+                         </div>
+                     <a href="{{ route('admin-logout') }}">
+                         <button class="btn-danger btn">
+                             Logout
+                         </button>
+                     </a>
                 </div>
             </div>
             @if($errors->any() > 0)
@@ -158,7 +173,7 @@ Schedule
                                        @endforeach
                                     @else
                                     <tr>
-                                        <td colspan='7'>No added schedule.</td>
+                                        <td colspan='7' class='text-center'>No added schedule.</td>
                                     </tr>
                                     @endif
                                 </tbody>

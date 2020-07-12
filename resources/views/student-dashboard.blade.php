@@ -2,18 +2,57 @@
 @section('title')
 @php
     $name = Auth::guard('student')->user()->fname." ".Auth::guard('student')->user()->lname;
-    echo ucwords($name);
+    echo "Welcome ".ucwords($name);
 @endphp
 @endsection
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center mt-5">
         <div class="col col-md-8">
+            <div class="col mb-2">
+                <a href="{{ route('student-dashboard',Auth::guard('student')->user()->id) }}">
+                    <button class='btn btn-primary' title="Subjects">
+                        Subject Lists
+                    </button>
+                </a>
+                <a href="{{ route('assesment',Auth::guard('student')->user()->id) }}">
+                    <button class="btn-primary btn">
+                        Assessment
+                    </button>
+                </a>
+                <a href="{{ route('profile', Auth::guard('student')->user()->id) }}">
+                    <button class='btn btn-primary'  title="Profile">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </a>
+                <button class='btn btn-primary' role="button" id="enrolee_dpdown" title="Notifcations" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell"></i>
+                    @if(Auth::guard('student')->user()->unreadNotifications->count())
+                          <span class='badge badge-danger'>{{Auth::guard('student')->user()->notifications->count()}}</span>
+
+                    @endif
+                </button>
+                <div class="dropdown-menu" aria-labelledby="enrolee_dpdown">
+                    @if(Auth::guard('student')->user()->notifications->count() > 0)
+                        @foreach(Auth::guard('student')->user()->notifications as $notification)
+                       <a href="{{ route('assesment',Auth::guard('student')->user()->id)}}" class='dropdown-item'>{!! "Geetings <u>".$notification->data['student_name']."</u>. ".$notification->data['message'] !!}</a>
+                        @endforeach
+                    @else
+                    <a href="" class='dropdown-item'>No notification.</a>
+                    @endif
+                </div>
+                <a href="{{ route('student-logout') }}">
+                    <button class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </a>
+                   
+            </div>
            <div class="row mb-1">
                <div class="col text-right">
                </div>
            </div>
-            <div class="card mt-5">
+            <div class="card">
                 <div class="card-header text-center">
                   Available Subjects
                 </div>
@@ -63,7 +102,7 @@
                                     @endforeach
                                 @else
                                 <tr class='text-center'>
-                                    <td colspan='8'>No subjects added</td>
+                                    <td colspan='8'>No subjects available at the moment.</td>
                                 </tr>
                                 @endif
                             </tbody>
@@ -79,8 +118,9 @@
                 </div>
               </div>
         </div>
-        <div class="col col-md-3">
-            <div class="card mt-5">
+
+        <div class="col col-md-3 mt-5">
+            <div class="card">
                 <div class="card-header text-center">
                     Subject Choosed
                 </div>

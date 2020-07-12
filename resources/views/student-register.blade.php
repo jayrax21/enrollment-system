@@ -85,10 +85,10 @@ Student Registration
                                             <label for="">Course</label>
                                             <select name="course" id="" class="form-control">
                                                 <option value="">Select Course</option>
-                                                <option value="Male">BSIT</option>
-                                                <option value="Female">BSBA</option>
-                                                <option value="Female">BS-Accountancy</option>
-                                                <option value="Female">BS-Civil Engineering</option>
+                                                <option value="BSIT">BSIT</option>
+                                                <option value="BSBA">BSBA</option>
+                                                <option value="BS-Accountancy">BS-Accountancy</option>
+                                                <option value="BS-Civil Engineering">BS-Civil Engineering</option>
                                             </select>
                                             @error('course')
                                                 <small class='text-danger'>  {{ $message }} </small>

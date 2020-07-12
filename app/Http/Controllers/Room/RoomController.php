@@ -32,7 +32,7 @@ class RoomController extends Controller
        $room->save();
        return redirect()->back()->with('succ','Room updated successfully.');
     }
-    public function delRoom($id)
+    public function deleteRoom($id)
     {
       $room = Room::find($id);
       $room->delete();

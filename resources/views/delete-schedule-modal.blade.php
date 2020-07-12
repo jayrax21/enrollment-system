@@ -8,7 +8,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="{{ route('del-sched',$schedule->id) }}" method="post">
+        <form action="{{ route('del-sched',$schedule->id) }}" method="get">
             @csrf 
             <div class="modal-body">
                 <div class="row">

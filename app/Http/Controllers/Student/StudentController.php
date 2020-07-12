@@ -69,4 +69,27 @@ class StudentController extends Controller
     {
         return view('student-dashboard');
     }
+    public function profile(Request $request, $id){
+        if($request->isMethod('post'))
+        {
+           $student = Student::findorFail($id);
+           $student->fname = $request->fname;
+           $student->lname = $request->lname;
+           $student->bday = $request->bday;
+           $student->address = $request->address;
+           $student->contact = $request->contact;
+           $student->course = $request->course;
+           $student->gender = $request->gender;
+           $student->username = $request->username;
+           $student->id_number = $request->id_number;
+           $student->save();
+           return redirect()->back()->with('succ','Profile updated successfully.');
+        }
+       $student = Student::findorFail($id);
+       return view('student-profile')->with('student',$student);
+    }
+    public function logout(){
+       Auth::guard('student')->logout();
+       return redirect('student/index')->with('flash','You successfully logged out.');
+    }
 }
